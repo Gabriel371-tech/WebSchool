@@ -7,10 +7,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 
 @Controller
-@RequestMapping("/webschool")
 public class WebSchoolController {
 
-    @GetMapping("")
+    @GetMapping("/")
+    public String landing(Model model) {
+        return "index"; 
+    }
+
+    @GetMapping("/webschool")
     public String index(Model model) {
         return "index"; 
     }

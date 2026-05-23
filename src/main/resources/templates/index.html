@@ -1,67 +1,148 @@
 <!DOCTYPE html>
-<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/layout :: head('WebSchool | Bem-vindo')}">
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: head('WebSchool | Gestão Acadêmica Inteligente')}">
 </head>
 <body class="d-flex flex-column min-vh-100">
 
-    <div th:replace="~{fragments/layout :: navbar}"></div>
+    <!-- Hero Section with Background -->
+    <header class="position-relative overflow-hidden text-center bg-dark text-white py-5 shadow-lg" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1523050335392-9bc6755318af?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'); background-size: cover; background-position: center;">
+        <div class="container py-5">
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <div class="display-1 fw-bold mb-3"><i class="bi bi-mortarboard-fill text-primary"></i> WebSchool</div>
+                    <h2 class="h3 mb-4 fw-light">A Revolução na Gestão da sua Instituição de Ensino</h2>
+                    <p class="lead mb-5 px-lg-5">Centralize alunos, professores, cursos e vendas em uma plataforma rápida, segura e extremamente fácil de usar. Criada para quem respira educação.</p>
+                    
+                    <div class="d-grid gap-3 d-sm-flex justify-content-sm-center mb-5" sec:authorize="!isAuthenticated()">
+                        <a th:href="@{/login}" class="btn btn-primary btn-lg px-5 py-3 fw-bold shadow">
+                            Acessar Painel <i class="bi bi-arrow-right-short ms-1"></i>
+                        </a>
+                        <a th:href="@{/usuarios/criar}" class="btn btn-outline-light btn-lg px-5 py-3">
+                            Criar Conta Grátis
+                        </a>
+                    </div>
+                    
+                    <div sec:authorize="isAuthenticated()" class="mb-5">
+                        <a th:href="@{/home}" class="btn btn-success btn-lg px-5 py-3 fw-bold shadow">
+                            Ir para Dashboard <i class="bi bi-speedometer2 ms-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Wave shape -->
+        <div class="position-absolute bottom-0 start-0 w-100 no-print" style="height: 50px; background: white; clip-path: polygon(0 100%, 100% 100%, 100% 0, 0 100%);"></div>
+    </header>
 
     <main>
-        <!-- Hero Section -->
-        <section class="py-5 text-center bg-white shadow-sm mb-5">
+        <!-- Trusted By section -->
+        <section class="py-4 bg-light border-bottom">
+            <div class="container text-center text-muted">
+                <small class="text-uppercase fw-bold ls-1 mb-3 d-block">Utilizado por instituições de todo o Brasil</small>
+                <div class="row justify-content-center align-items-center opacity-50 grayscale">
+                    <div class="col-4 col-md-2 mb-3 mb-md-0 fs-3 fw-bold">EDUCAR+</div>
+                    <div class="col-4 col-md-2 mb-3 mb-md-0 fs-3 fw-bold italic">TechAcademy</div>
+                    <div class="col-4 col-md-2 mb-3 mb-md-0 fs-3 fw-bold">UNISCHOOL</div>
+                    <div class="col-4 col-md-2 mb-3 mb-md-0 fs-3 fw-bold">LínguasX</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Solutions Section -->
+        <section class="py-5">
             <div class="container py-5">
-                <div class="row py-lg-5">
-                    <div class="col-lg-7 col-md-8 mx-auto">
-                        <h1 class="display-3 fw-bold text-primary">WebSchool</h1>
-                        <p class="lead text-muted mb-4">A plataforma definitiva para gestão acadêmica e comercial da sua instituição. Simplicidade, rapidez e eficiência em um só lugar.</p>
-                        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-                            <a th:href="@{/login}" class="btn btn-primary btn-lg px-4 gap-3 shadow">Acesse o Sistema</a>
-                            <a th:href="@{/usuarios/criar}" class="btn btn-outline-secondary btn-lg px-4">Cadastre-se</a>
+                <div class="row text-center mb-5">
+                    <div class="col-lg-8 mx-auto">
+                        <h6 class="text-primary text-uppercase fw-bold mb-2">Soluções Completas</h6>
+                        <h2 class="display-5 fw-bold">Tudo o que sua escola precisa</h2>
+                        <p class="text-muted lead">Do cadastro do aluno à emissão de relatórios complexos, o WebSchool cuida de tudo.</p>
+                    </div>
+                </div>
+
+                <div class="row g-4">
+                    <!-- Feature 1 -->
+                    <div class="col-md-4">
+                        <div class="card h-100 border-0 shadow-sm p-4 text-center">
+                            <div class="bg-primary bg-opacity-10 text-primary rounded-circle mx-auto mb-4 d-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+                                <i class="bi bi-person-lines-fill fs-1"></i>
+                            </div>
+                            <h4 class="fw-bold">Gestão de Alunos</h4>
+                            <p class="text-muted">Ficha completa, histórico, matrículas em cursos e controle total de dados pessoais.</p>
+                        </div>
+                    </div>
+                    <!-- Feature 2 -->
+                    <div class="col-md-4">
+                        <div class="card h-100 border-0 shadow-sm p-4 text-center">
+                            <div class="bg-success bg-opacity-10 text-success rounded-circle mx-auto mb-4 d-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+                                <i class="bi bi-journal-check fs-1"></i>
+                            </div>
+                            <h4 class="fw-bold">Pedagógico</h4>
+                            <p class="text-muted">Organize cursos, disciplinas e professores de forma vinculada e inteligente.</p>
+                        </div>
+                    </div>
+                    <!-- Feature 3 -->
+                    <div class="col-md-4">
+                        <div class="card h-100 border-0 shadow-sm p-4 text-center">
+                            <div class="bg-warning bg-opacity-10 text-warning rounded-circle mx-auto mb-4 d-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+                                <i class="bi bi-cash-coin fs-1"></i>
+                            </div>
+                            <h4 class="fw-bold">Comercial</h4>
+                            <p class="text-muted">Venda de cursos e produtos com gestão de pedidos integrada ao cadastro.</p>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Features Section -->
-        <div class="container px-4 py-5" id="featured-3">
-            <h2 class="pb-2 border-bottom">Por que escolher o WebSchool?</h2>
-            <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
-                <div class="feature col">
-                    <div class="feature-icon d-inline-flex align-items-center justify-content-center text-bg-primary bg-gradient fs-2 mb-3 p-3 rounded-3 shadow">
-                        <i class="bi bi-people-fill"></i>
+        <!-- Testimonial Section -->
+        <section class="py-5 bg-primary text-white overflow-hidden position-relative">
+            <div class="container py-5">
+                <div class="row align-items-center">
+                    <div class="col-lg-6 mb-5 mb-lg-0">
+                        <i class="bi bi-quote display-1 opacity-25"></i>
+                        <h2 class="display-6 fw-bold mb-4">"O WebSchool reduziu nosso tempo de gestão em 60%. Agora focamos no que importa: ensinar."</h2>
+                        <div class="d-flex align-items-center">
+                            <div class="ms-0">
+                                <p class="fw-bold mb-0">Ricardo Oliveira</p>
+                                <p class="small mb-0 opacity-75">Diretor da Escola Técnica de São Paulo</p>
+                            </div>
+                        </div>
                     </div>
-                    <h3 class="fs-2 text-body-emphasis">Gestão de Alunos</h3>
-                    <p>Controle completo de matrículas, dados pessoais e histórico acadêmico de forma intuitiva.</p>
-                </div>
-                <div class="feature col">
-                    <div class="feature-icon d-inline-flex align-items-center justify-content-center text-bg-success bg-gradient fs-2 mb-3 p-3 rounded-3 shadow">
-                        <i class="bi bi-cart-check-fill"></i>
+                    <div class="col-lg-5 offset-lg-1">
+                        <div class="bg-white text-dark p-5 rounded-4 shadow-lg">
+                            <h3 class="fw-bold mb-3">Solicite uma demonstração</h3>
+                            <p class="text-muted mb-4">Nossa equipe entrará em contato para apresentar todas as funcionalidades.</p>
+                            <form>
+                                <div class="mb-3">
+                                    <input type="text" class="form-control" placeholder="Nome da Instituição">
+                                </div>
+                                <div class="mb-3">
+                                    <input type="email" class="form-control" placeholder="E-mail de Contato">
+                                </div>
+                                <div class="d-grid">
+                                    <button type="button" class="btn btn-primary btn-lg shadow">Quero conhecer</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                    <h3 class="fs-2 text-body-emphasis">Vendas e Pedidos</h3>
-                    <p>Gerencie produtos e pedidos da sua instituição com facilidade e relatórios detalhados.</p>
-                </div>
-                <div class="feature col">
-                    <div class="feature-icon d-inline-flex align-items-center justify-content-center text-bg-info bg-gradient fs-2 mb-3 p-3 rounded-3 shadow">
-                        <i class="bi bi-file-earmark-bar-graph-fill"></i>
-                    </div>
-                    <h3 class="fs-2 text-body-emphasis">Relatórios Inteligentes</h3>
-                    <p>Acompanhe o desempenho da sua escola com gráficos e dados em tempo real.</p>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <!-- CTA Section -->
-        <section class="py-5 bg-primary text-white text-center">
-            <div class="container py-4">
-                <h2 class="fw-bold">Pronto para começar?</h2>
-                <p class="lead mb-4">Junte-se a centenas de instituições que já modernizaram sua gestão.</p>
-                <a th:href="@{/usuarios/criar}" class="btn btn-light btn-lg px-5 shadow">Criar Conta Agora</a>
+        <!-- Footer CTA -->
+        <section class="py-5 text-center">
+            <div class="container py-5">
+                <h2 class="fw-bold h1">Pronto para digitalizar sua escola?</h2>
+                <p class="lead text-muted mb-5">Comece hoje mesmo a usar a melhor plataforma de gestão acadêmica.</p>
+                <div class="d-flex justify-content-center gap-3">
+                    <a th:href="@{/usuarios/criar}" class="btn btn-primary btn-lg px-5 shadow">Cadastrar Instituição</a>
+                    <a href="#solutions" class="btn btn-outline-primary btn-lg px-5">Ver Recursos</a>
+                </div>
             </div>
         </section>
     </main>
 
-    <div th:replace="~{fragments/layout :: footer}"></div>
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
