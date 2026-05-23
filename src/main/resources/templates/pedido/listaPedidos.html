@@ -1,69 +1,76 @@
 <!DOCTYPE html>
 <html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WebSchool | Pedidos</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+<head th:replace="~{fragments/layout :: head('WebSchool | Pedidos')}">
 </head>
-<body>
-    <header>
-        <h1>Gestão de Pedidos</h1>
-    </header>
-    <nav>
-        <a th:href="@{/home}">Início</a>
-        <a th:href="@{/alunos/listar}">Alunos</a>
-        <a th:href="@{/cursos/listar}">Cursos</a>
-        <a th:href="@{/professores/listar}">Professores</a>
-        <a th:href="@{/disciplinas/listar}">Disciplinas</a>
-        <a th:href="@{/produtos/listar}">Produtos</a>
-        <a th:href="@{/pedidos/listar}">Pedidos</a>
-        <a th:href="@{/relatorios}">Relatórios</a>
-    </nav>
+<body class="d-flex flex-column min-vh-100">
 
-    <main class="container">
-        <div class="card">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                <h2>Lista de Pedidos</h2>
-                <a th:href="@{/pedidos/criar}" class="btn btn-success">Novo Pedido</a>
+    <div th:replace="~{fragments/layout :: navbar}"></div>
+
+    <main class="container py-5">
+        <nav aria-label="breadcrumb" class="mb-4">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a th:href="@{/home}">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Pedidos</li>
+            </ol>
+        </nav>
+
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white py-3 d-flex align-items-center justify-content-between">
+                <h5 class="card-title mb-0 fw-bold"><i class="bi bi-cart-check me-2 text-primary"></i>Lista de Pedidos</h5>
+                <a th:href="@{/pedidos/criar}" class="btn btn-success btn-sm shadow-sm">
+                    <i class="bi bi-plus-lg me-1"></i>Novo Pedido
+                </a>
             </div>
-            
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Data</th>
-                        <th>Aluno</th>
-                        <th>Status</th>
-                        <th>Total</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="pedido : ${pedidos}">
-                        <td th:text="${pedido.idPedido}"></td>
-                        <td th:text="${#temporals.format(pedido.dataPedido, 'dd/MM/yyyy HH:mm')}"></td>
-                        <td th:text="${pedido.aluno != null ? pedido.aluno.nomeAluno : 'N/A'}"></td>
-                        <td>
-                            <span th:text="${pedido.statusPedido}" 
-                                  th:classappend="${pedido.statusPedido == 'CONCLUIDO' ? 'badge-success' : (pedido.statusPedido == 'CANCELADO' ? 'badge-danger' : 'badge-warning')}"></span>
-                        </td>
-                        <td th:text="${'R$ ' + #numbers.formatDecimal(pedido.totalPedido, 1, 2, 'COMMA')}"></td>
-                        <td>
-                            <div class="actions">
-                                <a th:href="@{/pedidos/detalhes/{id}(id=${pedido.idPedido})}" class="btn btn-primary btn-sm">Detalhes</a>
-                                <a th:href="@{/pedidos/excluir/{id}(id=${pedido.idPedido})}" 
-                                   class="btn btn-danger btn-sm"
-                                   onclick="return confirm('Tem certeza que deseja excluir este pedido?')">Excluir</a>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr th:if="${#lists.isEmpty(pedidos)}">
-                        <td colspan="6" style="text-align: center;">Nenhum pedido realizado.</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>ID</th>
+                                <th>Data</th>
+                                <th>Aluno</th>
+                                <th>Status</th>
+                                <th>Total</th>
+                                <th class="text-end">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="pedido : ${pedidos}">
+                                <td th:text="${pedido.idPedido}"></td>
+                                <td th:text="${#temporals.format(pedido.dataPedido, 'dd/MM/yyyy HH:mm')}"></td>
+                                <td class="fw-semibold text-primary" th:text="${pedido.aluno != null ? pedido.aluno.nomeAluno : 'N/A'}"></td>
+                                <td>
+                                    <span class="badge" 
+                                          th:classappend="${pedido.statusPedido == 'CONCLUIDO' ? 'bg-success' : (pedido.statusPedido == 'CANCELADO' ? 'bg-danger' : 'bg-warning')}"
+                                          th:text="${pedido.statusPedido}"></span>
+                                </td>
+                                <td class="fw-bold" th:text="${'R$ ' + #numbers.formatDecimal(pedido.totalPedido, 1, 2, 'COMMA')}"></td>
+                                <td class="text-end">
+                                    <div class="btn-group shadow-sm">
+                                        <a th:href="@{/pedidos/detalhes/{id}(id=${pedido.idPedido})}" class="btn btn-outline-primary btn-sm" title="Detalhes">
+                                            <i class="bi bi-eye"></i> Detalhes
+                                        </a>
+                                        <a th:href="@{/pedidos/excluir/{id}(id=${pedido.idPedido})}" 
+                                           class="btn btn-outline-danger btn-sm"
+                                           title="Excluir"
+                                           onclick="return confirm('Tem certeza que deseja excluir este pedido?')">
+                                            <i class="bi bi-trash"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr th:if="${#lists.isEmpty(pedidos)}">
+                                <td colspan="6" class="text-center py-4 text-muted small italic">Nenhum pedido realizado.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </main>
+
+    <div th:replace="~{fragments/layout :: footer}"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

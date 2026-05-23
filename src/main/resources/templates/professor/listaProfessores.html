@@ -1,68 +1,76 @@
 <!DOCTYPE html>
 <html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WebSchool | Professores</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+<head th:replace="~{fragments/layout :: head('WebSchool | Professores')}">
 </head>
-<body>
-    <header>
-        <h1>Gestão de Professores</h1>
-    </header>
-    <nav>
-        <a th:href="@{/home}">Início</a>
-        <a th:href="@{/alunos/listar}">Alunos</a>
-        <a th:href="@{/cursos/listar}">Cursos</a>
-        <a th:href="@{/professores/listar}">Professores</a>
-        <a th:href="@{/disciplinas/listar}">Disciplinas</a>
-        <a th:href="@{/produtos/listar}">Produtos</a>
-        <a th:href="@{/pedidos/listar}">Pedidos</a>
-        <a th:href="@{/relatorios}">Relatórios</a>
-    </nav>
+<body class="d-flex flex-column min-vh-100">
 
-    <main class="container">
-        <div class="card">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                <h2>Lista de Professores</h2>
-                <a th:href="@{/professores/criar}" class="btn btn-success">Novo Professor</a>
+    <div th:replace="~{fragments/layout :: navbar}"></div>
+
+    <main class="container py-5">
+        <nav aria-label="breadcrumb" class="mb-4">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a th:href="@{/home}">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Professores</li>
+            </ol>
+        </nav>
+
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white py-3 d-flex align-items-center justify-content-between">
+                <h5 class="card-title mb-0 fw-bold"><i class="bi bi-person-workspace me-2 text-primary"></i>Lista de Professores</h5>
+                <a th:href="@{/professores/criar}" class="btn btn-success btn-sm shadow-sm">
+                    <i class="bi bi-plus-lg me-1"></i>Novo Professor
+                </a>
             </div>
-            
-            <table>
-                <thead>
-                    <tr>
-                        <th>Nome</th>
-                        <th>Especialidade</th>
-                        <th>Email</th>
-                        <th>Telefone</th>
-                        <th>CPF</th>
-                        <th>Curso</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="professor : ${professores}">
-                        <td th:text="${professor.nomeProfessor}"></td>
-                        <td th:text="${professor.especialidade}"></td>
-                        <td th:text="${professor.emailProfessor}"></td>
-                        <td th:text="${professor.telefoneProfessor}"></td>
-                        <td th:text="${professor.cpfProfessor}"></td>
-                        <td th:text="${professor.curso != null ? professor.curso.nomeCurso : 'N/A'}"></td>
-                        <td>
-                            <div class="actions">
-                                <a th:href="@{/professores/editar/{id}(id=${professor.idProfessor})}" class="btn btn-primary btn-sm">Editar</a>
-                                <a th:href="@{/professores/excluir/{id}(id=${professor.idProfessor})}" 
-                                   class="btn btn-danger btn-sm"
-                                   onclick="return confirm('Tem certeza que deseja excluir este professor?')">Excluir</a>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr th:if="${#lists.isEmpty(professores)}">
-                        <td colspan="7" style="text-align: center;">Nenhum professor cadastrado.</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Nome</th>
+                                <th>Especialidade</th>
+                                <th>Email</th>
+                                <th class="d-none d-md-table-cell">Telefone</th>
+                                <th class="d-none d-lg-table-cell">CPF</th>
+                                <th>Curso</th>
+                                <th class="text-end">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="professor : ${professores}">
+                                <td class="fw-semibold text-primary" th:text="${professor.nomeProfessor}"></td>
+                                <td th:text="${professor.especialidade}"></td>
+                                <td th:text="${professor.emailProfessor}"></td>
+                                <td class="d-none d-md-table-cell" th:text="${professor.telefoneProfessor}"></td>
+                                <td class="d-none d-lg-table-cell" th:text="${professor.cpfProfessor}"></td>
+                                <td>
+                                    <span class="badge bg-info text-dark" th:text="${professor.curso != null ? professor.curso.nomeCurso : 'N/A'}"></span>
+                                </td>
+                                <td class="text-end">
+                                    <div class="btn-group shadow-sm">
+                                        <a th:href="@{/professores/editar/{id}(id=${professor.idProfessor})}" class="btn btn-outline-primary btn-sm" title="Editar">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                        <a th:href="@{/professores/excluir/{id}(id=${professor.idProfessor})}" 
+                                           class="btn btn-outline-danger btn-sm"
+                                           title="Excluir"
+                                           onclick="return confirm('Tem certeza que deseja excluir este professor?')">
+                                            <i class="bi bi-trash"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr th:if="${#lists.isEmpty(professores)}">
+                                <td colspan="7" class="text-center py-4 text-muted small italic">Nenhum professor cadastrado.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </main>
+
+    <div th:replace="~{fragments/layout :: footer}"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

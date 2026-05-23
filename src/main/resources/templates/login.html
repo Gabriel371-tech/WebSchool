@@ -1,117 +1,70 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Login</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 40px;
-        }
-
-        h1 {
-            text-align: center;
-        }
-
-        form {
-            max-width: 400px;
-            margin: 0 auto;
-        }
-
-        label {
-            display: block;
-            margin-top: 15px;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-
-        input {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-
-        button[type="submit"] {
-            width: 100%;
-            margin-top: 20px;
-            padding: 10px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        .msg-erro {
-            margin-top: 15px;
-            padding: 10px;
-            background-color: #fdecea;
-            border: 1px solid #f44336;
-            border-radius: 4px;
-            color: #f44336;
-            text-align: center;
-        }
-
-        .msg-logout {
-            margin-top: 15px;
-            padding: 10px;
-            background-color: #e8f5e9;
-            border: 1px solid #4CAF50;
-            border-radius: 4px;
-            color: #4CAF50;
-            text-align: center;
-        }
-
-        .link-cadastro {
-            display: block;
-            text-align: center;
-            margin-top: 15px;
-            font-size: 13px;
-            color: #333;
-        }
-
-        .link-cadastro a {
-            color: #4CAF50;
-        }
-    </style>
+<head th:replace="~{fragments/layout :: head('WebSchool | Login')}">
 </head>
-<body>
+<body class="bg-light">
 
-<h1>Login</h1>
+    <div class="container">
+        <div class="row min-vh-100 align-items-center justify-content-center">
+            <div class="col-12 col-sm-8 col-md-6 col-lg-4">
+                <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+                    <div class="card-body p-5">
+                        <div class="text-center mb-4">
+                            <div class="display-6 fw-bold text-primary mb-2">
+                                <i class="bi bi-mortarboard-fill"></i> WebSchool
+                            </div>
+                            <h5 class="text-muted">Bem-vindo de volta!</h5>
+                        </div>
 
-<form th:action="@{/login}" method="post">
+                        <form th:action="@{/login}" method="post">
+                            <!-- Alert for Error -->
+                            <div th:if="${param.error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <i class="bi bi-exclamation-triangle-fill me-2"></i>E-mail ou senha incorretos.
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
 
-    <div th:if="${param.error}" class="msg-erro">
-        E-mail ou senha incorretos.
+                            <!-- Alert for Logout -->
+                            <div th:if="${param.logout}" class="alert alert-success alert-dismissible fade show" role="alert">
+                                <i class="bi bi-check-circle-fill me-2"></i>Você saiu do sistema com sucesso.
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+
+                            <!-- General messages -->
+                            <div th:if="${message}" class="alert alert-info" th:text="${message}"></div>
+                            <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+                            <div class="form-floating mb-3">
+                                <input type="email" class="form-control" id="emailUsuario" name="username" placeholder="name@example.com" required>
+                                <label for="emailUsuario">E-mail</label>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input type="password" class="form-control" id="senhaUsuario" name="password" placeholder="Senha" required>
+                                <label for="senhaUsuario">Senha</label>
+                            </div>
+
+                            <div class="d-grid mb-3">
+                                <button class="btn btn-primary btn-lg shadow-sm" type="submit">Entrar</button>
+                            </div>
+
+                            <div class="text-center">
+                                <a th:href="@{/forgot_password}" class="text-decoration-none small text-muted">Esqueceu a senha?</a>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card-footer bg-white border-0 py-4 text-center">
+                        <p class="mb-0 text-muted">Não tem uma conta? <a th:href="@{/usuarios/criar}" class="fw-bold text-decoration-none text-primary">Cadastre-se</a></p>
+                    </div>
+                </div>
+                <div class="text-center mt-4">
+                    <a th:href="@{/webschool}" class="text-muted text-decoration-none small">
+                        <i class="bi bi-arrow-left me-1"></i>Voltar para a página inicial
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div th:if="${param.logout}" class="msg-logout">
-        Você saiu do sistema com sucesso.
-    </div>
-
-    <div th:if="${message}" class="msg-logout" th:text="${message}"></div>
-    <div th:if="${error}" class="msg-erro" th:text="${error}"></div>
-
-    <label for="emailUsuario">Endereço eletrônico</label>
-    <input type="email" id="emailUsuario" name="username" placeholder="usuario@exemplo.com" required />
-
-    <label for="senhaUsuario">Senha</label>
-    <input type="password" id="senhaUsuario" name="password" placeholder="Senha" required />
-
-    <button type="submit">Entrar</button>
-
-    <span class="link-cadastro">
-            Não tem conta? <a th:href="@{/usuarios/criar}">Cadastre-se</a>
-        </span>
-    <span class="link-cadastro">
-            <a th:href="@{/forgot_password}">Esqueceu a senha?</a>
-        </span>
-
-</form>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

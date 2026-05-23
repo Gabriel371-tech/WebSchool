@@ -1,44 +1,125 @@
 <!DOCTYPE html>
 <html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WebSchool | Home</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+<head th:replace="~{fragments/layout :: head('WebSchool | Dashboard')}">
 </head>
-<body>
-    <header>
-        <h1>WebSchool - Gestão Acadêmica</h1>
-    </header>
-    <nav>
-        <a th:href="@{/home}">Início</a>
-        <a th:href="@{/alunos/listar}">Alunos</a>
-        <a th:href="@{/cursos/listar}">Cursos</a>
-        <a th:href="@{/professores/listar}">Professores</a>
-        <a th:href="@{/disciplinas/listar}">Disciplinas</a>
-        <a th:href="@{/produtos/listar}">Produtos</a>
-        <a th:href="@{/pedidos/listar}">Pedidos</a>
-        <a th:href="@{/relatorios}">Relatórios</a>
-    </nav>
+<body class="d-flex flex-column min-vh-100">
 
-    <main class="container">
-        <div class="card" style="text-align: center;">
-            <h2>Bem-vindo ao Sistema WebSchool</h2>
-            <p style="margin: 1.5rem 0;">Utilize o menu acima para gerenciar os cadastros da instituição.</p>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 20px; max-width: 800px; margin: 0 auto;">
-                <a th:href="@{/alunos/listar}" class="btn btn-primary">Alunos</a>
-                <a th:href="@{/cursos/listar}" class="btn btn-secondary" style="background-color: var(--secondary-color); color: white;">Cursos</a>
-                <a th:href="@{/professores/listar}" class="btn btn-success">Professores</a>
-                <a th:href="@{/disciplinas/listar}" class="btn btn-primary" style="background-color: #673ab7;">Disciplinas</a>
-                <a th:href="@{/produtos/listar}" class="btn btn-warning" style="background-color: #ff9800; color: white;">Produtos</a>
-                <a th:href="@{/pedidos/listar}" class="btn btn-danger" style="background-color: #e91e63;">Pedidos</a>
-                <a th:href="@{/relatorios}" class="btn btn-secondary" style="background-color: #607d8b; color: white;">Relatórios</a>
+    <div th:replace="~{fragments/layout :: navbar}"></div>
+
+    <main class="container py-5">
+        <div class="row mb-4">
+            <div class="col">
+                <h1 class="h2"><i class="bi bi-speedometer2 me-2"></i>Dashboard</h1>
+                <p class="text-muted">Bem-vindo ao centro de controle do WebSchool.</p>
+            </div>
+        </div>
+
+        <!-- Dashboard Stats Cards -->
+        <div class="row g-4 mb-5">
+            <div class="col-12 col-sm-6 col-lg-3">
+                <div class="card border-0 shadow-sm h-100 border-start border-primary border-4">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="text-muted mb-1">Alunos</h6>
+                                <h3 class="fw-bold mb-0">Gerenciar</h3>
+                            </div>
+                            <div class="fs-1 text-primary">
+                                <i class="bi bi-people"></i>
+                            </div>
+                        </div>
+                        <a th:href="@{/alunos/listar}" class="stretched-link"></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-lg-3">
+                <div class="card border-0 shadow-sm h-100 border-start border-success border-4">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="text-muted mb-1">Cursos</h6>
+                                <h3 class="fw-bold mb-0">Gerenciar</h3>
+                            </div>
+                            <div class="fs-1 text-success">
+                                <i class="bi bi-book"></i>
+                            </div>
+                        </div>
+                        <a th:href="@{/cursos/listar}" class="stretched-link"></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-lg-3">
+                <div class="card border-0 shadow-sm h-100 border-start border-warning border-4">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="text-muted mb-1">Produtos</h6>
+                                <h3 class="fw-bold mb-0">Gerenciar</h3>
+                            </div>
+                            <div class="fs-1 text-warning">
+                                <i class="bi bi-box-seam"></i>
+                            </div>
+                        </div>
+                        <a th:href="@{/produtos/listar}" class="stretched-link"></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6 col-lg-3">
+                <div class="card border-0 shadow-sm h-100 border-start border-danger border-4">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="text-muted mb-1">Relatórios</h6>
+                                <h3 class="fw-bold mb-0">Visualizar</h3>
+                            </div>
+                            <div class="fs-1 text-danger">
+                                <i class="bi bi-graph-up"></i>
+                            </div>
+                        </div>
+                        <a th:href="@{/relatorios}" class="stretched-link"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions Card -->
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-header bg-white py-3">
+                <h5 class="card-title mb-0 fw-bold">Ações Rápidas</h5>
+            </div>
+            <div class="card-body">
+                <div class="row g-3 text-center">
+                    <div class="col-6 col-md-3">
+                        <a th:href="@{/alunos/criar}" class="btn btn-outline-primary w-100 py-3">
+                            <i class="bi bi-person-plus d-block fs-3 mb-2"></i>
+                            Novo Aluno
+                        </a>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <a th:href="@{/pedidos/criar}" class="btn btn-outline-success w-100 py-3">
+                            <i class="bi bi-cart-plus d-block fs-3 mb-2"></i>
+                            Novo Pedido
+                        </a>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <a th:href="@{/professores/criar}" class="btn btn-outline-info w-100 py-3 text-white" style="background-color: #0dcaf0; border-color: #0dcaf0;">
+                            <i class="bi bi-person-badge d-block fs-3 mb-2"></i>
+                            Novo Professor
+                        </a>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <a th:href="@{/cursos/criar}" class="btn btn-outline-secondary w-100 py-3">
+                            <i class="bi bi-journal-plus d-block fs-3 mb-2"></i>
+                            Novo Curso
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </main>
 
-    <footer style="text-align: center; padding: 2rem; color: #7f8c8d; font-size: 0.9rem;">
-        &copy; 2026 Faculdade WebSchool. Todos os direitos reservados.
-    </footer>
+    <div th:replace="~{fragments/layout :: footer}"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

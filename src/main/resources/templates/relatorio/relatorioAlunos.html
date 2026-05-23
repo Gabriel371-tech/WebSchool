@@ -1,105 +1,86 @@
 <!DOCTYPE html>
 <html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WebSchool | Relatório de Alunos</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+<head th:replace="~{fragments/layout :: head('WebSchool | Relatório de Alunos')}">
+</head>
+<body class="bg-white">
+
     <style>
         @media print {
-            nav, header, .btn-container {
-                display: none !important;
-            }
-            .container {
-                width: 100% !important;
-                margin: 0 !important;
-                padding: 0 !important;
-                box-shadow: none !important;
-            }
-            table {
-                width: 100% !important;
-            }
+            .no-print { display: none !important; }
+            .card { border: none !important; box-shadow: none !important; }
+            .table { border: 1px solid #dee2e6 !important; }
+            body { padding: 0; margin: 0; }
         }
         .report-header {
-            text-align: center;
-            margin-bottom: 2rem;
-            border-bottom: 2px solid #003366;
-            padding-bottom: 1rem;
-        }
-        .report-header h2 {
-            color: #003366;
-            margin: 0;
-        }
-        .report-info {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.9rem;
-            color: #666;
-            margin-top: 10px;
+            border-bottom: 3px solid #0d6efd;
+            padding-bottom: 1.5rem;
         }
     </style>
-</head>
-<body>
-    <header>
-        <h1>Central de Relatórios</h1>
-    </header>
-    <nav>
-        <a th:href="@{/home}">Início</a>
-        <a th:href="@{/relatorios}">Voltar aos Relatórios</a>
-    </nav>
 
-    <main class="container">
-        <div class="card">
-            <div class="report-header">
-                <h2>Relatório Geral de Alunos</h2>
-                <div class="report-info">
-                    <span>Faculdade WebSchool - Sistema de Gestão Acadêmica</span>
-                    <span th:text="${'Emissão: ' + dataEmissao}"></span>
+    <div class="container py-5">
+        <div class="no-print mb-4 d-flex justify-content-between align-items-center">
+            <a th:href="@{/relatorios}" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left me-1"></i>Voltar
+            </a>
+            <div class="d-flex gap-2">
+                <button onclick="window.print()" class="btn btn-primary shadow-sm">
+                    <i class="bi bi-printer me-1"></i>Imprimir
+                </button>
+                <a th:href="@{/relatorios/alunos/pdf}" class="btn btn-success shadow-sm">
+                    <i class="bi bi-file-earmark-pdf me-1"></i>Baixar PDF
+                </a>
+            </div>
+        </div>
+
+        <div class="card border-0 shadow-sm p-4">
+            <div class="report-header mb-4 text-center">
+                <div class="display-6 fw-bold text-primary mb-2">WebSchool</div>
+                <h2 class="h4 text-uppercase">Relatório Geral de Alunos</h2>
+                <div class="text-muted small">
+                    <span th:text="${'Emissão: ' + dataEmissao}"></span> | 
+                    <span>Faculdade WebSchool - Sistema Acadêmico</span>
                 </div>
             </div>
 
-            <div class="btn-container" style="display: flex; gap: 10px; justify-content: flex-end; margin-bottom: 1.5rem;">
-                <button onclick="window.print()" class="btn btn-primary">Imprimir Relatório</button>
-                <a th:href="@{/relatorios/alunos/pdf}" class="btn btn-secondary">Baixar PDF</a>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped align-middle">
+                    <thead class="table-light text-center">
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>Email</th>
+                            <th>Telefone</th>
+                            <th>CPF</th>
+                            <th>Cidade</th>
+                            <th>Curso</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="aluno : ${alunos}">
+                            <td class="text-center" th:text="${aluno.idAluno}"></td>
+                            <td class="fw-semibold" th:text="${aluno.nomeAluno}"></td>
+                            <td th:text="${aluno.emailAluno}"></td>
+                            <td class="text-nowrap" th:text="${aluno.telefoneAluno}"></td>
+                            <td class="text-nowrap" th:text="${aluno.cpfAluno}"></td>
+                            <td th:text="${aluno.cidadeAluno}"></td>
+                            <td>
+                                <span class="badge bg-light text-dark border w-100" th:text="${aluno.curso != null ? aluno.curso.nomeCurso : 'N/A'}"></span>
+                            </td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(alunos)}">
+                            <td colspan="7" class="text-center py-5 text-muted">Nenhum aluno cadastrado no sistema.</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
             
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Nome</th>
-                        <th>Email</th>
-                        <th>Telefone</th>
-                        <th>CPF</th>
-                        <th>Cidade</th>
-                        <th>Curso</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="aluno : ${alunos}">
-                        <td th:text="${aluno.idAluno}"></td>
-                        <td th:text="${aluno.nomeAluno}"></td>
-                        <td th:text="${aluno.emailAluno}"></td>
-                        <td th:text="${aluno.telefoneAluno}"></td>
-                        <td th:text="${aluno.cpfAluno}"></td>
-                        <td th:text="${aluno.cidadeAluno}"></td>
-                        <td th:text="${aluno.curso != null ? aluno.curso.nomeCurso : 'N/A'}"></td>
-                    </tr>
-                    <tr th:if="${alunos == null or #lists.isEmpty(alunos)}">
-                        <td colspan="7" style="text-align: center;">Nenhum aluno cadastrado.</td>
-                    </tr>
-                </tbody>
-            </table>
-            
-            <div class="report-footer" style="margin-top: 3rem; text-align: center; font-size: 0.8rem; color: #999;">
-                <p>Este relatório contém uma listagem completa dos alunos ativos no sistema.</p>
-                <p th:if="${alunos != null}" th:text="${'Total de alunos: ' + #lists.size(alunos)}"></p>
+            <div class="report-footer mt-5 pt-4 border-top text-center text-muted small">
+                <p class="mb-1">Este relatório é um documento informativo gerado eletronicamente.</p>
+                <p class="fw-bold" th:if="${alunos != null}" th:text="${'Total de Registros: ' + #lists.size(alunos)}"></p>
             </div>
         </div>
-    </main>
+    </div>
 
-    <footer style="text-align: center; padding: 2rem; color: #7f8c8d; font-size: 0.9rem;">
-        &copy; 2026 Faculdade WebSchool. Todos os direitos reservados.
-    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

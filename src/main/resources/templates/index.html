@@ -1,17 +1,68 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Document</title>
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('WebSchool | Bem-vindo')}">
 </head>
-<body>
-    <h1 style="text-align: center;">
-        Bem vindo ao Sistema WebSchool
-    </h1>
+<body class="d-flex flex-column min-vh-100">
 
-    <h2 style="text-align:center;"><a th:href="@{/login}">Acesso ao Sistema</a></h2>
-    <h2 style="text-align:center;"><a th:href="@{/usuarios/criar}">Criar</a></h2>
+    <div th:replace="~{fragments/layout :: navbar}"></div>
 
+    <main>
+        <!-- Hero Section -->
+        <section class="py-5 text-center bg-white shadow-sm mb-5">
+            <div class="container py-5">
+                <div class="row py-lg-5">
+                    <div class="col-lg-7 col-md-8 mx-auto">
+                        <h1 class="display-3 fw-bold text-primary">WebSchool</h1>
+                        <p class="lead text-muted mb-4">A plataforma definitiva para gestão acadêmica e comercial da sua instituição. Simplicidade, rapidez e eficiência em um só lugar.</p>
+                        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                            <a th:href="@{/login}" class="btn btn-primary btn-lg px-4 gap-3 shadow">Acesse o Sistema</a>
+                            <a th:href="@{/usuarios/criar}" class="btn btn-outline-secondary btn-lg px-4">Cadastre-se</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <div class="container px-4 py-5" id="featured-3">
+            <h2 class="pb-2 border-bottom">Por que escolher o WebSchool?</h2>
+            <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+                <div class="feature col">
+                    <div class="feature-icon d-inline-flex align-items-center justify-content-center text-bg-primary bg-gradient fs-2 mb-3 p-3 rounded-3 shadow">
+                        <i class="bi bi-people-fill"></i>
+                    </div>
+                    <h3 class="fs-2 text-body-emphasis">Gestão de Alunos</h3>
+                    <p>Controle completo de matrículas, dados pessoais e histórico acadêmico de forma intuitiva.</p>
+                </div>
+                <div class="feature col">
+                    <div class="feature-icon d-inline-flex align-items-center justify-content-center text-bg-success bg-gradient fs-2 mb-3 p-3 rounded-3 shadow">
+                        <i class="bi bi-cart-check-fill"></i>
+                    </div>
+                    <h3 class="fs-2 text-body-emphasis">Vendas e Pedidos</h3>
+                    <p>Gerencie produtos e pedidos da sua instituição com facilidade e relatórios detalhados.</p>
+                </div>
+                <div class="feature col">
+                    <div class="feature-icon d-inline-flex align-items-center justify-content-center text-bg-info bg-gradient fs-2 mb-3 p-3 rounded-3 shadow">
+                        <i class="bi bi-file-earmark-bar-graph-fill"></i>
+                    </div>
+                    <h3 class="fs-2 text-body-emphasis">Relatórios Inteligentes</h3>
+                    <p>Acompanhe o desempenho da sua escola com gráficos e dados em tempo real.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA Section -->
+        <section class="py-5 bg-primary text-white text-center">
+            <div class="container py-4">
+                <h2 class="fw-bold">Pronto para começar?</h2>
+                <p class="lead mb-4">Junte-se a centenas de instituições que já modernizaram sua gestão.</p>
+                <a th:href="@{/usuarios/criar}" class="btn btn-light btn-lg px-5 shadow">Criar Conta Agora</a>
+            </div>
+        </section>
+    </main>
+
+    <div th:replace="~{fragments/layout :: footer}"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

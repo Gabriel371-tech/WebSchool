@@ -1,78 +1,111 @@
 <!DOCTYPE html>
 <html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WebSchool | Aluno</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+<head th:replace="~{fragments/layout :: head('WebSchool | Cadastro de Aluno')}">
 </head>
-<body>
-    <header>
-        <h1>Cadastro de Aluno</h1>
-    </header>
-    <nav>
-        <a th:href="@{/home}">Início</a>
-        <a th:href="@{/alunos/listar}">Alunos</a>
-        <a th:href="@{/cursos/listar}">Cursos</a>
-        <a th:href="@{/professores/listar}">Professores</a>
-        <a th:href="@{/disciplinas/listar}">Disciplinas</a>
-        <a th:href="@{/produtos/listar}">Produtos</a>
-        <a th:href="@{/pedidos/listar}">Pedidos</a>
-        <a th:href="@{/relatorios}">Relatórios</a>
-    </nav>
+<body class="d-flex flex-column min-vh-100">
 
-    <main class="container">
-        <div class="card">
-            <h2 th:text="${aluno.idAluno != null ? 'Editar Aluno' : 'Novo Aluno'}">Formulário de Alunos</h2>
-            <form th:action="@{/alunos/salvar}" method="post" th:object="${aluno}" style="margin-top: 1.5rem;">
-                <input type="hidden" th:field="*{idAluno}" />
+    <div th:replace="~{fragments/layout :: navbar}"></div>
 
-                <div class="form-group">
-                    <label for="nomeAluno">Nome Completo:</label>
-                    <input type="text" id="nomeAluno" th:field="*{nomeAluno}" required placeholder="Ex: João Silva">
-                </div>
+    <main class="container py-5">
+        <nav aria-label="breadcrumb" class="mb-4">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a th:href="@{/home}">Home</a></li>
+                <li class="breadcrumb-item"><a th:href="@{/alunos/listar}">Alunos</a></li>
+                <li class="breadcrumb-item active" aria-current="page" th:text="${aluno.idAluno != null ? 'Editar Aluno' : 'Novo Aluno'}"></li>
+            </ol>
+        </nav>
 
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                    <div class="form-group">
-                        <label for="emailAluno">Email:</label>
-                        <input type="email" id="emailAluno" th:field="*{emailAluno}" placeholder="joao@email.com">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white py-3">
+                        <h5 class="card-title mb-0 fw-bold">
+                            <i class="bi bi-person-plus-fill me-2 text-primary"></i>
+                            <span th:text="${aluno.idAluno != null ? 'Editar Registro de Aluno' : 'Cadastrar Novo Aluno'}"></span>
+                        </h5>
                     </div>
-                    <div class="form-group">
-                        <label for="telefoneAluno">Telefone:</label>
-                        <input type="text" id="telefoneAluno" th:field="*{telefoneAluno}" required placeholder="(00) 00000-0000">
+                    <div class="card-body p-4">
+                        <form th:action="@{/alunos/salvar}" method="post" th:object="${aluno}" class="needs-validation">
+                            <input type="hidden" th:field="*{idAluno}" />
+
+                            <div class="mb-4">
+                                <label for="nomeAluno" class="form-label fw-semibold">Nome Completo</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-person"></i></span>
+                                    <input type="text" class="form-control" id="nomeAluno" th:field="*{nomeAluno}" required placeholder="Ex: João da Silva">
+                                </div>
+                            </div>
+
+                            <div class="row g-3 mb-4">
+                                <div class="col-md-6">
+                                    <label for="emailAluno" class="form-label fw-semibold">Email</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                                        <input type="email" class="form-control" id="emailAluno" th:field="*{emailAluno}" placeholder="exemplo@email.com">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="telefoneAluno" class="form-label fw-semibold">Telefone</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-telephone"></i></span>
+                                        <input type="text" class="form-control" id="telefoneAluno" th:field="*{telefoneAluno}" required placeholder="(00) 00000-0000">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row g-3 mb-4">
+                                <div class="col-md-6">
+                                    <label for="cpfAluno" class="form-label fw-semibold">CPF</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-card-text"></i></span>
+                                        <input type="text" class="form-control" id="cpfAluno" th:field="*{cpfAluno}" required placeholder="000.000.000-00">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="cidadeAluno" class="form-label fw-semibold">Cidade</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-geo-alt"></i></span>
+                                        <input type="text" class="form-control" id="cidadeAluno" th:field="*{cidadeAluno}" required placeholder="Ex: Rio de Janeiro">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="enderecoAluno" class="form-label fw-semibold">Endereço</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-house"></i></span>
+                                    <input type="text" class="form-control" id="enderecoAluno" th:field="*{enderecoAluno}" required placeholder="Rua, Número, Complemento, Bairro">
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="curso" class="form-label fw-semibold">Curso Matriculado</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-journal-bookmark"></i></span>
+                                    <select class="form-select" id="curso" th:field="*{curso}" required>
+                                        <option value="" disabled selected>Selecione um curso...</option>
+                                        <option th:each="c : ${cursos}" th:value="${c.idCurso}" th:text="${c.nomeCurso}"></option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <hr class="my-4">
+
+                            <div class="d-flex gap-2 justify-content-end">
+                                <a th:href="@{/alunos/listar}" class="btn btn-light px-4">Cancelar</a>
+                                <button type="submit" class="btn btn-primary px-5 shadow-sm">
+                                    <i class="bi bi-check-lg me-1"></i>Salvar Registro
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
-
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                    <div class="form-group">
-                        <label for="cpfAluno">CPF:</label>
-                        <input type="text" id="cpfAluno" th:field="*{cpfAluno}" required placeholder="000.000.000-00">
-                    </div>
-                    <div class="form-group">
-                        <label for="cidadeAluno">Cidade:</label>
-                        <input type="text" id="cidadeAluno" th:field="*{cidadeAluno}" required placeholder="Ex: São Paulo">
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="enderecoAluno">Endereço:</label>
-                    <input type="text" id="enderecoAluno" th:field="*{enderecoAluno}" required placeholder="Rua, Número, Bairro">
-                </div>
-
-                <div class="form-group">
-                    <label for="curso">Curso:</label>
-                    <select id="curso" th:field="*{curso}" required>
-                        <option value="" disabled selected>Selecione um curso</option>
-                        <option th:each="c : ${cursos}" th:value="${c.idCurso}" th:text="${c.nomeCurso}"></option>
-                    </select>
-                </div>
-
-                <div style="display: flex; gap: 10px; margin-top: 1rem;">
-                    <button type="submit" class="btn btn-success" style="flex: 1;">Salvar Registro</button>
-                    <a th:href="@{/alunos/listar}" class="btn btn-danger" style="flex: 1;">Cancelar</a>
-                </div>
-            </form>
+            </div>
         </div>
     </main>
+
+    <div th:replace="~{fragments/layout :: footer}"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
