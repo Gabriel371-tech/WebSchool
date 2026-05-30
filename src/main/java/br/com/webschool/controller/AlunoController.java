@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 
 
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 @Controller
 @RequestMapping("/alunos")
 public class AlunoController {
@@ -68,8 +70,13 @@ public class AlunoController {
 
     //Método para excluir um aluno
     @GetMapping("/excluir/{id}")
-    public String excluir(@PathVariable Integer id) {
-        alunoService.deleteById(id);
+    public String excluir(@PathVariable Integer id, RedirectAttributes attributes) {
+        try {
+            alunoService.deleteById(id);
+            attributes.addFlashAttribute("message", "Aluno excluído com sucesso!");
+        } catch (Exception e) {
+            attributes.addFlashAttribute("error", "Não é possível excluir este aluno pois ele possui registros vinculados (ex: pedidos).");
+        }
         return "redirect:/alunos/listar";
     }
     

@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 @Controller
 @RequestMapping("/disciplinas")
 public class DisciplinaController {
@@ -66,8 +68,13 @@ public class DisciplinaController {
 
     // GET /disciplinas/excluir/{id} — remove disciplina
     @GetMapping("/excluir/{id}")
-    public String deletar(@PathVariable Integer id) {
-        disciplinaService.deletar(id);
+    public String deletar(@PathVariable Integer id, RedirectAttributes attributes) {
+        try {
+            disciplinaService.deletar(id);
+            attributes.addFlashAttribute("message", "Disciplina excluída com sucesso!");
+        } catch (Exception e) {
+            attributes.addFlashAttribute("error", "Não é possível excluir esta disciplina pois ela possui registros vinculados.");
+        }
         return "redirect:/disciplinas/listar";
     }
 }

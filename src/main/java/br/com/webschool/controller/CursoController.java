@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 
 
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 @Controller
 @RequestMapping("/cursos")
 public class CursoController {
@@ -59,8 +61,13 @@ public class CursoController {
 
     //Método para deletar um curso
     @GetMapping("/excluir/{id}")
-    public String excluir(@PathVariable Integer id) {
-        cursoService.deleteById(id);
+    public String excluir(@PathVariable Integer id, RedirectAttributes attributes) {
+        try {
+            cursoService.deleteById(id);
+            attributes.addFlashAttribute("message", "Curso excluído com sucesso!");
+        } catch (Exception e) {
+            attributes.addFlashAttribute("error", "Não é possível excluir este curso pois existem alunos ou disciplinas vinculados a ele.");
+        }
         return "redirect:/cursos/listar";
     }
 }

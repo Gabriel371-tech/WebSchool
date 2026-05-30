@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 @Controller
 @RequestMapping("/professores")
 public class ProfessorController {
@@ -61,8 +63,13 @@ public class ProfessorController {
 
     // GET /professores/excluir/{id} — remove professor
     @GetMapping("/excluir/{id}")
-    public String deletar(@PathVariable Integer id) {
-        professorService.deletar(id);
+    public String deletar(@PathVariable Integer id, RedirectAttributes attributes) {
+        try {
+            professorService.deletar(id);
+            attributes.addFlashAttribute("message", "Professor excluído com sucesso!");
+        } catch (Exception e) {
+            attributes.addFlashAttribute("error", "Não é possível excluir este professor pois ele possui disciplinas vinculadas.");
+        }
         return "redirect:/professores/listar";
     }
 }

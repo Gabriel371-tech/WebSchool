@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 @Controller
 @RequestMapping("/produtos")
 public class ProdutoController {
@@ -45,8 +47,13 @@ public class ProdutoController {
     }
 
     @GetMapping("/excluir/{id}")
-    public String excluir(@PathVariable Integer id) {
-        produtoService.deleteById(id);
+    public String excluir(@PathVariable Integer id, RedirectAttributes attributes) {
+        try {
+            produtoService.deleteById(id);
+            attributes.addFlashAttribute("message", "Produto excluído com sucesso!");
+        } catch (Exception e) {
+            attributes.addFlashAttribute("error", "Não é possível excluir este produto pois ele possui pedidos vinculados.");
+        }
         return "redirect:/produtos/listar";
     }
 }

@@ -6,6 +6,8 @@ import org.springframework.ui.Model;
 import br.com.webschool.service.UsuarioService;
 import org.springframework.web.bind.annotation.*;
 
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 @Controller
 @RequestMapping("/usuarios")
 public class UsuarioController {
@@ -19,14 +21,34 @@ public class UsuarioController {
 
     @GetMapping("/criar")
     public String criarForm(Model model) {
-        model.addAttribute("usuario", new Usuario());
+        if (!model.containsAttribute("usuario")) {
+            model.addAttribute("usuario", new Usuario());
+        }
         return "usuario/formularioUsuario";
     }
 
+    @GetMapping("/listar")
+    public String listar(Model model) {
+        model.addAttribute("usuarios", usuarioService.listarTodos());
+        return "usuario/listaUsuarios";
+    }
+
     @PostMapping("/salvar")
-    public String salvar(@ModelAttribute Usuario usuario) {
-        usuarioService.salvar(usuario);
-        return "redirect:/usuarios/listar";
+    public String salvar(@ModelAttribute Usuario usuario, RedirectAttributes attributes) {
+        try {
+            if (usuario.getIdUsuario() != null) {
+                usuarioService.atualizar(usuario.getIdUsuario(), usuario);
+                attributes.addFlashAttribute("message", "Usuário atualizado com sucesso!");
+            } else {
+                usuarioService.salvar(usuario);
+                attributes.addFlashAttribute("message", "Usuário cadastrado com sucesso! Faça seu login.");
+            }
+            return "redirect:/login";
+        } catch (Exception e) {
+            attributes.addFlashAttribute("error", "Erro ao salvar usuário: " + e.getMessage());
+            attributes.addFlashAttribute("usuario", usuario);
+            return "redirect:/usuarios/criar";
+        }
     }
 }
 

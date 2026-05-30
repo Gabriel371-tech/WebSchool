@@ -13,7 +13,8 @@
                         <p class="mb-0 text-white-50">Cadastre-se para acessar o sistema WebSchool</p>
                     </div>
                     <div class="card-body p-4 p-md-5">
-                        <form th:action="@{/usuarios/salvar}" method="post" th:object="${usuario}">
+                        <form th:action="@{/usuarios/salvar}" method="post" th:object="${usuario}" autocomplete="off">
+                            <input type="hidden" th:field="*{idUsuario}">
                             
                             <div class="form-floating mb-3">
                                 <input type="text" class="form-control" id="nomeUsuario" th:field="*{nomeUsuario}" placeholder="Nome Completo" required>

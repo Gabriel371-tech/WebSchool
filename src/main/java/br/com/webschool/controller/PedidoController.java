@@ -9,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 @Controller
 @RequestMapping("/pedidos")
 public class PedidoController {
@@ -51,8 +53,13 @@ public class PedidoController {
     }
 
     @GetMapping("/excluir/{id}")
-    public String excluir(@PathVariable Integer id) {
-        pedidoService.deleteById(id);
+    public String excluir(@PathVariable Integer id, RedirectAttributes attributes) {
+        try {
+            pedidoService.deleteById(id);
+            attributes.addFlashAttribute("message", "Pedido excluído com sucesso!");
+        } catch (Exception e) {
+            attributes.addFlashAttribute("error", "Não é possível excluir este pedido pois ele possui itens vinculados.");
+        }
         return "redirect:/pedidos/listar";
     }
 
